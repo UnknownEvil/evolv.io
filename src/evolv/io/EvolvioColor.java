@@ -171,9 +171,9 @@ public class EvolvioColor extends PApplet {
 				cameraY = (float) evoBoard.getSelectedCreature().getPy();
 				zoom = 16;
 			} else if (mouseY >= 95 && mouseY < 135 && evoBoard.getSelectedCreature() == null) {
-				if (mouseX >= windowHeight + 10 && mouseX < windowHeight + 230) {
+				if (mouseX >= windowHeight + 10 && mouseX < windowHeight + 10 + 233) {
 					resetZoom();
-				} else if (mouseX >= windowHeight + 240 && mouseX < windowHeight + 460) {
+				} else if (mouseX >= windowHeight + 250 && mouseX < windowHeight + 10 + 233 + 10 + 233) {
 					if (mouseButton == LEFT) {
 						evoBoard.incrementSortMetric();
 					} else if (mouseButton == RIGHT) {
@@ -183,10 +183,10 @@ public class EvolvioColor extends PApplet {
 			} else if (mouseY >= 570) {
 				float x = (mouseX - (windowHeight + 10));
 				float y = (mouseY - 570);
-				boolean clickedOnLeft = (x % 230 < 110);
-				if (x >= 0 && x < 460 && y >= 0 && y < 200 && x % 230 < 220 && y % 50 < 40) {
+				boolean clickedOnLeft = (x % (233 + 10) < 233 / 2);
+				if (x >= 0 && x < (233 + 10) * 2 && y >= 0 && y < 200 && x % (233 + 10) < 233 && y % 50 < 40) {
 					// 460 = 2 * 230 and 200 = 4 * 50
-					int mX = (int) (x / 230);
+					int mX = (int) (x / (233 + 10));
 					int mY = (int) (y / 50);
 					int buttonNum = mX + mY * 2;
 					BOARD_ACTIONS.get(buttonNum).doAction(evoBoard, clickedOnLeft);
