@@ -129,7 +129,8 @@ public class Board {
 
 	public void drawUI(float scaleUp, float camZoom, double timeStep, int x1, int y1, int x2, int y2) {
 		this.evolvioColor.fill(0, 0, 0);
-		this.evolvioColor.noStroke();
+		this.evolvioColor.stroke(0, 0, 1);
+		this.evolvioColor.strokeWeight(5);
 		this.evolvioColor.rect(x1, y1, x2 - x1, y2 - y1);
 
 		this.evolvioColor.pushMatrix();
@@ -164,19 +165,26 @@ public class Board {
 				if (list[i] != null) {
 					list[i].setPreferredRank(list[i].getPreferredRank() + ((i - list[i].getPreferredRank()) * 0.4f));
 					float y = y1 + 175 + 70 * list[i].getPreferredRank();
+					
+					this.evolvioColor.stroke(0, 0, 1);
+					this.evolvioColor.strokeWeight(2);
+					this.evolvioColor.fill(0, 0, 0);
+					this.evolvioColor.rect(10, y - 25, 475, 65, 5);
 					drawCreature(list[i], 45, y + 5, 2.3f, scaleUp);
 					this.evolvioColor.textSize(24);
 					this.evolvioColor.textAlign(EvolvioColor.LEFT);
-					this.evolvioColor.noStroke();
+					this.evolvioColor.stroke(0, 0, 1);
+					this.evolvioColor.strokeWeight(2);
+					
 					this.evolvioColor.fill(0.333f, 1, 0.4f);
 					float multi = (x2 - x1 - 200);
 					if (list[i].getEnergy() > 0) {
-						this.evolvioColor.rect(85, y + 5, (float) (multi * list[i].getEnergy() / maxEnergy), 25);
+						this.evolvioColor.rect(85, y + 5, (float) (multi * list[i].getEnergy() / maxEnergy), 25, 5);
 					}
 					if (list[i].getEnergy() > 1) {
 						this.evolvioColor.fill(0.333f, 1, 0.8f);
 						this.evolvioColor.rect(85 + (float) (multi / maxEnergy), y + 5,
-								(float) (multi * (list[i].getEnergy() - 1) / maxEnergy), 25);
+								(float) (multi * (list[i].getEnergy() - 1) / maxEnergy), 25, 5);
 					}
 					this.evolvioColor.fill(0, 0, 1);
 					this.evolvioColor.text(
@@ -185,14 +193,17 @@ public class Board {
 							y + 25);
 				}
 			}
-			this.evolvioColor.noStroke();
+			
+			this.evolvioColor.stroke(0, 0, 1);
+			this.evolvioColor.strokeWeight(2);
+
 			this.evolvioColor.fill(buttonColor);
-			this.evolvioColor.rect(10, 95, 220, 40);
-			this.evolvioColor.rect(240, 95, 220, 40);
+			this.evolvioColor.rect(10, 95, 220, 40, 5);
+			this.evolvioColor.rect(240, 95, 220, 40, 5);
 			this.evolvioColor.fill(0, 0, 1);
 			this.evolvioColor.textAlign(EvolvioColor.CENTER);
-			this.evolvioColor.text("Reset zoom", 120, 123);
-			this.evolvioColor.text("Sort by: " + SORT_METRIC_NAMES[sortMetric], 350, 123);
+			this.evolvioColor.text("Reset Zoom", 120, 123);
+			this.evolvioColor.text("Sort By: " + SORT_METRIC_NAMES[sortMetric], 350, 123);
 
 			this.evolvioColor.textSize(15);
 			/*
@@ -200,10 +211,10 @@ public class Board {
 			 * actions
 			 */
 			String[] buttonTexts = { "Brain Control",
-					"-   Spawn Chance " + EvolvioColor.nf(spawnChance * 100, 0, 0) + "%   +", "Screenshot now",
-					"-   Image every " + EvolvioColor.nf((float) imageSaveInterval, 0, 2) + " years   +",
-					"Text file now",
-					"-    Text every " + EvolvioColor.nf((float) textSaveInterval, 0, 2) + " years    +",
+					"-   Spawn Chance " + EvolvioColor.nf(spawnChance * 100, 0, 0) + "%   +", "Screenshot Now",
+					"-   Image Every " + EvolvioColor.nf((float) imageSaveInterval, 0, 2) + " Years   +",
+					"Text File Now",
+					"-    Text Every " + EvolvioColor.nf((float) textSaveInterval, 0, 2) + " Years    +",
 					"-    Play Speed (" + playSpeed + "x)    +", "Toggle Rendering" };
 			if (userControl) {
 				buttonTexts[0] = "Keyboard Control";
@@ -213,13 +224,13 @@ public class Board {
 				float x = (i % 2) * 230 + 10;
 				float y = EvolvioColor.floor(i / 2) * 50 + 570;
 				this.evolvioColor.fill(buttonColor);
-				this.evolvioColor.rect(x, y, 220, 40);
+				this.evolvioColor.rect(x, y, 220, 40, 5);
 				if (i <= 5 && i >= 2) {
 					// TODO can pow be replaced with something faster?
 					double flashAlpha = 1.0f
 							* Math.pow(0.5f, (year - fileSaveTimes[i - 2]) * Configuration.FLASH_SPEED);
 					this.evolvioColor.fill(0, 0, 1, (float) flashAlpha);
-					this.evolvioColor.rect(x, y, 220, 40);
+					this.evolvioColor.rect(x, y, 220, 40, 5);
 					
 					this.evolvioColor.fill(0, 0, 1, 1);
 					this.evolvioColor.text(getNextFileName(i - 2), x + 110, y + 37);
@@ -243,7 +254,7 @@ public class Board {
 				this.evolvioColor.fill(0.33f, 1, 0.4f);
 			}
 			float EUbar = 20 * energyUsage;
-			this.evolvioColor.rect(110, 280, EvolvioColor.min(EvolvioColor.max(EUbar, -110), 110), 25);
+			this.evolvioColor.rect(110, 280, EvolvioColor.min(EvolvioColor.max(EUbar, -110), 110), 25, 5);
 			if (EUbar < -110) {
 				this.evolvioColor.rect(0, 280, 25, (-110 - EUbar) * 20 + 25);
 			} else if (EUbar > 110) {
@@ -302,8 +313,9 @@ public class Board {
 			drawThermometer(-45, 30, 20, 660, temperature, Configuration.THERMOMETER_MINIMUM,
 					Configuration.THERMOMETER_MAXIMUM, this.evolvioColor.color(0, 1, 1));
 		}
+		
 		this.evolvioColor.popMatrix();
-
+		
 		if (selectedCreature != null) {
 			drawCreature(selectedCreature, x1 + 65, y1 + 147, 2.3f, scaleUp);
 		}
@@ -455,12 +467,14 @@ public class Board {
 
 	private void drawThermometer(float x1, float y1, float w, float h, double prog, double min, double max,
 			int fillColor) {
-		this.evolvioColor.noStroke();
+		this.evolvioColor.stroke(0, 0, 1);
+		this.evolvioColor.strokeWeight(2);
+		
 		this.evolvioColor.fill(0, 0, 0.2f);
-		this.evolvioColor.rect(x1, y1, w, h);
+		this.evolvioColor.rect(x1, y1, w, h, 5);
 		this.evolvioColor.fill(fillColor);
 		double proportionFilled = (prog - min) / (max - min);
-		this.evolvioColor.rect(x1, (float) (y1 + h * (1 - proportionFilled)), w, (float) (proportionFilled * h));
+		this.evolvioColor.rect(x1, (float) (y1 + h * (1 - proportionFilled)), w, (float) (proportionFilled * h), 5);
 
 		double zeroHeight = (0 - min) / (max - min);
 		double zeroLineY = y1 + h * (1 - zeroHeight);
@@ -471,26 +485,35 @@ public class Board {
 		double minY = y1 + h * (1 - (minTemperature - min) / (max - min));
 		double maxY = y1 + h * (1 - (maxTemperature - min) / (max - min));
 		this.evolvioColor.fill(0, 0, 0.8f);
-		this.evolvioColor.line(x1, (float) (minY), x1 + w * 1.8f, (float) (minY));
-		this.evolvioColor.line(x1, (float) (maxY), x1 + w * 1.8f, (float) (maxY));
-		this.evolvioColor.line(x1 + w * 1.8f, (float) (minY), x1 + w * 1.8f, (float) (maxY));
+		this.evolvioColor.line(x1, (float) (minY), x1 + w, (float) (minY));
+		this.evolvioColor.line(x1, (float) (maxY), x1 + w, (float) (maxY));
+		
+		this.evolvioColor.fill(0, 0, 0, 0);
+		this.evolvioColor.stroke(0, 0, 1);
+		this.evolvioColor.strokeWeight(3);
+		this.evolvioColor.bezier(-30, (float) minY, -30, (float) minY, x1 + w * 1.8f, (float) minY, x1 + w * 1.8f, (float) minY - 30);
+		this.evolvioColor.bezier(-30, (float) maxY, -30, (float) maxY, x1 + w * 1.8f, (float) maxY, x1 + w * 1.8f, (float) maxY + 30);
+		
+		this.evolvioColor.line(x1 + w * 1.8f, (float) (minY - 30), x1 + w * 1.8f, (float) (maxY + 30));
 
 		this.evolvioColor.fill(0, 0, 1);
-		this.evolvioColor.text("Zero", x1 - 5, (float) (zeroLineY + 8));
-		this.evolvioColor.text(EvolvioColor.nf(minTemperature, 0, 2), x1 - 5, (float) (minY + 8));
-		this.evolvioColor.text(EvolvioColor.nf(maxTemperature, 0, 2), x1 - 5, (float) (maxY + 8));
+		this.evolvioColor.textSize(18);
+		this.evolvioColor.text(EvolvioColor.nf(minTemperature, 0, 2), x1 - 5, (float) (minY + 6));
+		this.evolvioColor.text(EvolvioColor.nf(maxTemperature, 0, 2), x1 - 5, (float) (maxY + 6));
 	}
 
 	private void drawVerticalSlider(float x1, float y1, float w, float h, double prog, int fillColor, int antiColor) {
-		this.evolvioColor.noStroke();
+		this.evolvioColor.stroke(0, 0, 1);
+		this.evolvioColor.strokeWeight(2);
+		
 		this.evolvioColor.fill(0, 0, 0.2f);
-		this.evolvioColor.rect(x1, y1, w, h);
+		this.evolvioColor.rect(x1, y1, w, h, 5);
 		if (prog >= 0) {
 			this.evolvioColor.fill(fillColor);
 		} else {
 			this.evolvioColor.fill(antiColor);
 		}
-		this.evolvioColor.rect(x1, (float) (y1 + h * (1 - prog)), w, (float) (prog * h));
+		this.evolvioColor.rect(x1, (float) (y1 + h * (1 - prog)), w, (float) (prog * h), 5);
 	}
 
 	public boolean setMinTemperature(float temp) {
