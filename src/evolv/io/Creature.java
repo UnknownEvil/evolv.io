@@ -84,11 +84,12 @@ public class Creature extends SoftBody {
 
 	public void useBrain(double timeStep, boolean useOutput) {
 		double inputs[] = new double[Configuration.NUM_EYES * 3 + 2];
-		for (int i = 0; i < Configuration.NUM_EYES * 3; i++) {
-			inputs[i] = visionResults[i];
+		inputs[0] = getEnergy();
+		inputs[1] = mouthHue;
+		
+		for (int i = 2; i < Configuration.NUM_EYES * 3 + 2; i++) {
+			inputs[i] = visionResults[i - 2];
 		}
-		inputs[Configuration.NUM_EYES * 3] = getEnergy();
-		inputs[Configuration.NUM_EYES * 3 + 1] = mouthHue;
 		brain.input(inputs);
 
 		if (useOutput) {
