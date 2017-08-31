@@ -196,14 +196,19 @@ public class Board {
 			
 			this.evolvioColor.stroke(0, 0, 1);
 			this.evolvioColor.strokeWeight(2);
-
+			
+			int buttonWidth = 233;
+			int buttonSpacing = 10;
+			int buttonOffset = 10;
+			int buttonHeight = 42;
+			
 			this.evolvioColor.fill(buttonColor);
-			this.evolvioColor.rect(10, 95, 220, 40, 5);
-			this.evolvioColor.rect(240, 95, 220, 40, 5);
+			this.evolvioColor.rect(buttonOffset, 95, buttonWidth, buttonHeight, 5);
+			this.evolvioColor.rect(buttonOffset + buttonWidth + buttonSpacing, 95, buttonWidth, buttonHeight, 5);
 			this.evolvioColor.fill(0, 0, 1);
 			this.evolvioColor.textAlign(EvolvioColor.CENTER);
-			this.evolvioColor.text("Reset Zoom", 120, 123);
-			this.evolvioColor.text("Sort By: " + SORT_METRIC_NAMES[sortMetric], 350, 123);
+			this.evolvioColor.text("Reset Zoom", buttonWidth / 2 + buttonOffset, 123);
+			this.evolvioColor.text("Sort By: " + SORT_METRIC_NAMES[sortMetric], buttonWidth / 2 + buttonSpacing + buttonOffset + buttonWidth, 123);
 
 			this.evolvioColor.textSize(15);
 			/*
@@ -219,30 +224,34 @@ public class Board {
 			if (userControl) {
 				buttonTexts[0] = "Keyboard Control";
 			}
-
+			
 			for (int i = 0; i < 8; i++) {
-				float x = (i % 2) * 230 + 10;
+				this.evolvioColor.stroke(0, 0, 1);
+				this.evolvioColor.strokeWeight(2);
+				float x = (i % 2) * (buttonWidth + buttonSpacing) + buttonOffset;
 				float y = EvolvioColor.floor(i / 2) * 50 + 570;
 				this.evolvioColor.fill(buttonColor);
-				this.evolvioColor.rect(x, y, 220, 40, 5);
+				this.evolvioColor.rect(x, y, buttonWidth, buttonHeight, 5);
 				if (i <= 5 && i >= 2) {
 					// TODO can pow be replaced with something faster?
 					double flashAlpha = 1.0f
 							* Math.pow(0.5f, (year - fileSaveTimes[i - 2]) * Configuration.FLASH_SPEED);
 					this.evolvioColor.fill(0, 0, 1, (float) flashAlpha);
-					this.evolvioColor.rect(x, y, 220, 40, 5);
+					
+					this.evolvioColor.noStroke();
+					this.evolvioColor.rect(x, y, buttonWidth, buttonHeight, 5);
 					
 					this.evolvioColor.fill(0, 0, 1, 1);
-					this.evolvioColor.text(getNextFileName(i - 2), x + 110, y + 37);
+					this.evolvioColor.text(getNextFileName(i - 2), x + buttonWidth / 2, y + 37);
 				}
 				
 				this.evolvioColor.fill(0, 0, 1, 1);
 				if (i < 2 || i >= 6) {
-					this.evolvioColor.text(buttonTexts[i], x + 110, y + 25);
+					this.evolvioColor.text(buttonTexts[i], x + buttonWidth / 2, y + 25);
 				}
 				
 				if (i >= 2 && i < 6) {
-					this.evolvioColor.text(buttonTexts[i], x + 110, y + 15);
+					this.evolvioColor.text(buttonTexts[i], x + buttonWidth / 2, y + 15);
 				}
 			}
 		} else {
